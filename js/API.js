@@ -7,12 +7,27 @@ import ServerActions from './actions/ServerActions';
 let API = {
     fetchLinks(){
         console.log("1. In API");
-        fetch('/data/links')
+        fetch('/graphql', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `{
+                    links {
+                        _id,
+                        title,
+                        url
+                    }
+                }`
+            })
+        })
             .then((resp) => {
                 return resp.json();
             })
-            .then((data) => {
-                ServerActions.receiveLinks(data);
+            .then((resp) => {
+                ServerActions.receiveLinks(resp.data.links);
             })
     }
 };
