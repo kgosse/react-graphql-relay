@@ -3,3 +3,4 @@ node_modules
 bundle.js
 db.js
 public
+schema.json
