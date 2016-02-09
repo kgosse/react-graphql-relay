@@ -4,3 +4,4 @@ bundle.js
 db.js
 public
 schema.json
+*.log
