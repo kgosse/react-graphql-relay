@@ -18,6 +18,7 @@ app.use(express.static('public'));
 
 
 (async () => {
+
     let db = await MongoClient.connect(connection.MONGO_URL);
     let schema = Schema(db);
 
@@ -35,5 +36,4 @@ app.use(express.static('public'));
 
         console.log("JSON schema created");
     });
-
 })();
