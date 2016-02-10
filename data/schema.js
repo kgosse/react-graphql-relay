@@ -13,6 +13,7 @@ import {
 } from 'graphql';
 
 import {
+    globalIdField,
     connectionDefinitions,
     connectionArgs,
     connectionFromPromisedArray,
@@ -42,6 +43,7 @@ let Schema = (db) => {
         let storeType = new GraphQLObjectType({
             name: 'Store',
             fields: () => ({
+                id: globalIdField('Store'),
                 linkConnection: {
                     type: linkConnection.connectionType,
                     args: connectionArgs,
@@ -60,9 +62,13 @@ let Schema = (db) => {
                 url: {type: new GraphQLNonNull(GraphQLString)}
             },
             outputFields: {
-                link: {
-                    type: linkType,
-                    resolve: (obj) => obj.ops[0]
+                linkEdge: {
+                    type: linkConnection.edgeType,
+                    resolve: (obj) => ({ node: obj.ops[0], cursor: obj.insertedId })
+                },
+                store: {
+                    type: storeType,
+                    resolve: () => store
                 }
             },
             mutateAndGetPayload: ({title, url}) => {
