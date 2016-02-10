@@ -35,9 +35,20 @@ class CreateLinkMutation extends Relay.Mutation {
             connectionName: 'linkConnection',
             edgeName: 'linkEdge',
             rangeBehaviors: {
-                '': 'append'
+                '': 'prepend'
             }
         }];
+    }
+
+    getOptimisticResponse(){
+        return {
+            linkEdge: {
+                node: {
+                    title: this.props.title,
+                    url: this.props.url
+                }
+            }
+        }
     }
 }
 
